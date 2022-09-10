@@ -1,7 +1,7 @@
 #![allow(clippy::needless_return)]
 #![allow(non_snake_case)]
 #![allow(unused_must_use)]
-use std::{collections::HashMap};
+use std::collections::HashMap;
 
 pub fn get_insult() -> String {
     //View more details on how this works here (https://www.reddit.com/r/learnrust/comments/wz9flc/how_to_get_request_to_return_as_a_string/)
@@ -11,7 +11,7 @@ pub fn get_insult() -> String {
         .expect("Couldn't get response body");
     return x;
 }
-pub fn get_affirmation () -> String {
+pub fn get_affirmation() -> String {
     let x = reqwest::blocking::get("https://www.affirmations.dev/")
         .expect("Get failed")
         .text()
