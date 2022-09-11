@@ -1,4 +1,5 @@
-Hey so long story short me and a friend of mine have a long running thing where we make "insult" programs and this is my attempt at a version 4
+This is a fork of one of my other projects to make it more open and accessible to the public. 
+https://github.com/Xanthus58/bully_luna_v4
 
 You can view the website ![Here](https://xanthus58.github.io/bully_luna_v4/) Or download the native app ![Here](https://github.com/Xanthus58/bully_luna_v4/releases)
 
