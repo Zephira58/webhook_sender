@@ -101,7 +101,6 @@ impl eframe::App for MyApp {
                         self.message = get_insult();
                         cb(self.toasts.success("Generation Successful!")); //Sends a success toast
                     }
-                    let 
                     generate_affirmation = ui.button("Generate an affirmation");
                     if generate_affirmation.clicked() {
                         self.message = get_affirmation();

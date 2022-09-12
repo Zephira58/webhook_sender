@@ -5,7 +5,7 @@ use app::*;
 pub const APP_NAME: &str = "Webhook Sender";
 
 fn main() {
-    print!("{esc}c", esc = 27 as char); 
+    print!("{esc}c", esc = 27 as char);
     println!("Application made by Xanthus58");
     println!("Version: {}", env!("CARGO_PKG_VERSION"));
     println!("Repository: {}", env!("CARGO_PKG_REPOSITORY"));
