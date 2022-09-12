@@ -96,10 +96,9 @@ impl eframe::App for MyApp {
 
                 ui.separator();
 
-                ui.horizontal(|ui| {
-                    ui.label("Your message:");
-                    ui.label(&self.message);
-                });
+                ui.label("-Your message-");
+                ui.label(&self.message);
+
 
                 ui.horizontal(|ui| {
                     let generate_button = ui.button("Generate an insult");
