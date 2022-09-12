@@ -1707,6 +1707,9 @@ name = "serde"
 version = "1.0.144"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0f747710de3dcd43b88c9168773254e809d8ddbdf9653b84e2554ab219f17860"
+dependencies = [
+ "serde_derive",
+]
 
 [[package]]
 name = "serde_derive"
@@ -2313,14 +2316,27 @@ dependencies = [
 ]
 
 [[package]]
+name = "webhook"
+version = "2.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "17966df67b9b120b2fe41f9f9ec03f2fedcee710ce485b7510738151a81f9b52"
+dependencies = [
+ "hyper",
+ "hyper-tls",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "webhook_sender"
-version = "1.1.0"
+version = "1.2.0"
 dependencies = [
  "eframe",
  "egui-notify",
  "reqwest",
  "self_update",
  "tokio",
+ "webhook",
 ]
 
 [[package]]
