@@ -130,16 +130,16 @@ impl eframe::App for MyApp {
                 });
 
                 //Various UI elements and checks for application updates
-                if self.update_check == false {
+                if !self.update_check {
                     self.update_check = true;
                     let x = update();
                     if x.is_err() {
                         self.update_available = true
                     }
                 }
-                if self.update_available == true {
+                if self.update_available {
                     ui.separator();
-                    if self.update_notifcation == false {
+                    if !self.update_notifcation {
                         cb(self.toasts.info("Update avalible!"));
                         self.update_notifcation = true;
                     }
