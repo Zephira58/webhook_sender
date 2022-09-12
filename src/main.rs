@@ -1,4 +1,5 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")] // hide console window on Windows in release
+
 mod app;
 use app::*;
 
@@ -6,7 +7,7 @@ pub const APP_NAME: &str = "Webhook Sender";
 
 fn main() {
     print!("{esc}c", esc = 27 as char);
-    println!("Application made by Xanthus58");
+    println!("\nApplication made by Xanthus58");
     println!("Version: {}", env!("CARGO_PKG_VERSION"));
     println!("Repository: {}", env!("CARGO_PKG_REPOSITORY"));
     println!("License: {}", env!("CARGO_PKG_LICENSE"));

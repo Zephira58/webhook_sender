@@ -1,5 +1,6 @@
 #![allow(clippy::all)]
 #![allow(unused_must_use)]
+use self_update::cargo_crate_version;
 use std::collections::HashMap;
 
 pub fn get_insult() -> String {
@@ -45,4 +46,17 @@ pub async fn send_message(msg: &str, webhook: &str, username: &str, avatar_url: 
         .json(&request_body)
         .send()
         .await;
+}
+
+pub fn update() -> Result<(), Box<dyn (::std::error::Error)>> {
+    let status = self_update::backends::github::Update::configure()
+        .repo_owner("Xanthus58")
+        .repo_name("webhook_sender")
+        .bin_name("github")
+        .show_download_progress(true)
+        .current_version(cargo_crate_version!())
+        .build()?
+        .update()?;
+    println!("Update status: `{}`!\n", status.version());
+    Ok(())
 }

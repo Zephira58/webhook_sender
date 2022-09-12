@@ -17,6 +17,9 @@ pub struct MyApp {
     webhook: String,
     username: String,
     avatar_url: String,
+    update_check: bool,
+    update_available: bool,
+    update_notifcation: bool,
 }
 
 impl Default for MyApp {
@@ -31,6 +34,9 @@ impl Default for MyApp {
             webhook: "".to_string(),
             username: "Xans Webhook Sender".to_string(),
             avatar_url: "https://cdn.discordapp.com/avatars/292971545956188160/eab559efa07f0f3dd13d21ac5f26c4ce.png?size=1024".to_string(),
+            update_check: false,
+            update_available: false,
+            update_notifcation: false,
         }
     }
 }
@@ -41,11 +47,17 @@ const REPO_URL: &str = env!("CARGO_PKG_REPOSITORY");
 
 impl eframe::App for MyApp {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
-        egui::CentralPanel::default().show(ctx, |_ui| {
+        egui::CentralPanel::default().show(ctx, |_ui|{
             Window::new(APP_NAME).show(ctx, |ui| {
                 ui.style_mut().visuals = Visuals::dark(); // Makes the buttons dark
                 ctx.set_visuals(egui::Visuals::dark()); // Make the ui dark
                 egui::warn_if_debug_build(ui);
+
+                let cb = |t: &mut Toast| {
+                    //Callback for the toast
+                    t.set_closable(self.closable)
+                        .set_duration(Some(Duration::from_millis((1000. * self.duration) as u64)));
+                };
 
                 ui.horizontal(|ui| {
                     ui.label("Current build:");
@@ -53,12 +65,6 @@ impl eframe::App for MyApp {
                 });
 
                 ui.add_space(10.0);
-
-                let cb = |t: &mut Toast| {
-                    //Callback for the toast
-                    t.set_closable(self.closable)
-                        .set_duration(Some(Duration::from_millis((1000. * self.duration) as u64)));
-                };
 
                 self.message = self.message.replace("\n", "");
 
@@ -123,6 +129,27 @@ impl eframe::App for MyApp {
                         self.message = "".to_string();
                     }
                 });
+
+                //Various UI elements and checks for application updates
+                if self.update_check == false {
+                    self.update_check = true;
+                    let x = update();
+                    if x.is_err() {
+                        self.update_available = true
+                    }
+                }
+                if self.update_available == true {
+                    ui.separator();
+                    if self.update_notifcation == false {
+                        cb(self.toasts.info("Update avalible!"));
+                        self.update_notifcation = true;
+                    }
+                    ui.label("There is an update avalible!");
+                    ui.horizontal(|ui| {
+                        ui.label("You can download the update from");
+                        ui.hyperlink_to("here", "https://github.com/Xanthus58/webhook_sender/releases/latest");
+                    });
+                }
                 self.toasts.show(ctx); // Requests to render toasts
             });
         });
