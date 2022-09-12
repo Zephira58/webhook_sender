@@ -1,12 +1,12 @@
 [package]
 name = "webhook_sender"
-version = "1.0.0"
+version = "1.0.1"
 edition = "2021"
 authors = ["Xanthus58 <xanthus58@protonmail.com>"]
 license = "MIT"
-repository = "https://github.com/Xanthus58/bully_luna_v4"
+repository = "https://github.com/Xanthus58/webhook_sender"
 readme = "README.md"
-description = "A small little app that sends a message via a discord webhook"
+description = "An application that sends a message via a discord webhook to a user defined channel."
 publish = false
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

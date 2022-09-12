@@ -1,4 +1,3 @@
-#![allow(clippy::all)]
 use std::time::Duration;
 
 use eframe::egui::{self, Visuals, Window};
@@ -30,8 +29,8 @@ impl Default for MyApp {
             closable: true,
             duration: 3.5,
             webhook: "".to_string(),
-            username: "Xanthus".to_string(),
-            avatar_url: "https://cdn.discordapp.com/avatars/892723824297119754/fdd67fef581729a0224f7bf9e8a52d3b.png?size=1024".to_string(),
+            username: "Xans Webhook Sender".to_string(),
+            avatar_url: "https://cdn.discordapp.com/avatars/292971545956188160/eab559efa07f0f3dd13d21ac5f26c4ce.png?size=1024".to_string(),
         }
     }
 }
@@ -42,7 +41,7 @@ const REPO_URL: &str = env!("CARGO_PKG_REPOSITORY");
 
 impl eframe::App for MyApp {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
-        egui::CentralPanel::default().show(ctx, |ui| {
+        egui::CentralPanel::default().show(ctx, |_ui| {
             Window::new(APP_NAME).show(ctx, |ui| {
                 ui.style_mut().visuals = Visuals::dark(); // Makes the buttons dark
                 ctx.set_visuals(egui::Visuals::dark()); // Make the ui dark
@@ -65,7 +64,8 @@ impl eframe::App for MyApp {
 
                 ui.label("Hello and welcome to webhook sender!");
                 ui.label(
-                "You can randomly generate an insult, affirmation or write your own message in the boxes below!");
+                "You can randomly generate an insult, affirmation or write your own message in the boxes below!\n");
+                ui.label("Notice: This application is not affiliated with Discord in any way.\nThe application will say message sent even if the webhook URL is invalid.");
 
                 ui.separator();
                 ui.horizontal(|ui| {
@@ -101,21 +101,26 @@ impl eframe::App for MyApp {
                         self.message = get_insult();
                         cb(self.toasts.success("Generation Successful!")); //Sends a success toast
                     }
-                    let generate_affirmation = ui.button("Generate an affirmation");
+                    let 
+                    generate_affirmation = ui.button("Generate an affirmation");
                     if generate_affirmation.clicked() {
                         self.message = get_affirmation();
                         cb(self.toasts.success("Generation Successful!"));
                     }
-                    let send_button = ui.button("Send message");
 
-                    if send_button.clicked() && self.webhook != "" {
+                    let send_button = ui.button("Send message");
+                    if send_button.clicked() && self.webhook.is_empty(){
+                        println!("ERROR: Webhook URL not found!\n");
+                        cb(self.toasts.error("Please enter a wehbook url"));
+                    }
+                    else if send_button.clicked() && self.message.is_empty() {
+                        println!("ERROR: Message not found!\n");
+                        cb(self.toasts.error("Please enter a message"));
+                    }
+                    else if send_button.clicked() {
                         send_message(&self.message, &self.webhook, &self.username, &self.avatar_url);
                         cb(self.toasts.success("Message Sent!"));
                         self.message = "".to_string();
-                    }
-
-                    else if send_button.clicked() {
-                        cb(self.toasts.error("Please enter a wehbook url"));
                     }
                 });
                 self.toasts.show(ctx); // Requests to render toasts
