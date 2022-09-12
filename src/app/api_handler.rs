@@ -29,12 +29,8 @@ pub fn get_affirmation() -> String {
     return x;
 }
 
-
 use webhook::client::{WebhookClient, WebhookResult};
 use webhook::models::NonLinkButtonStyle;
-
-
-const IMAGE_URL: &'static str = "https://cdn.discordapp.com/avatars/312157715449249795/a_b8b3b0c35f3dee2b6586a0dd58697e29.png";
 
 #[tokio::main]
 pub async fn send_message(msg: &str, webhook: &str, username: &str, avatar_url: &str) {
@@ -52,26 +48,48 @@ pub async fn send_message(msg: &str, webhook: &str, username: &str, avatar_url: 
         .json(&request_body)
         .send()
         .await;
-        println!("Message sent!");
+    println!("Message sent!");
 }
 #[tokio::main]
-pub async fn send_embed(msg: &str, webhook: &str, username: &str, avatar_url: &str, embed_title: &str, embed_footer: &str, embed_footer_icon: &str, embed_image: &str, embed_thumbnail: &str, embed_field_title: &str, embed_field_value: &str) -> WebhookResult<()> {
+pub async fn send_embed(
+    msg: &str,
+    webhook: &str,
+    username: &str,
+    avatar_url: &str,
+    embed_title: &str,
+    embed_footer: &str,
+    embed_footer_icon: &str,
+    embed_image: &str,
+    embed_thumbnail: &str,
+    embed_field_title: &str,
+    embed_field_value: &str,
+) -> WebhookResult<()> {
     let client = WebhookClient::new(webhook);
     let webhook_info = client.get_information().await?;
     println!("\nwebhook: {:?}", webhook_info);
     println!("\nSending embed...");
-    client.send(|message| message
-        .content("")
-        .username(username)
-        .avatar_url(avatar_url)
-        .embed(|embed| embed
-            .title(embed_title)
-            .description(msg)
-            .footer(embed_footer, Some(String::from(embed_footer_icon)))
-            .image(embed_image)
-            .thumbnail(embed_thumbnail)
-            .author(username, Some(String::from(avatar_url)), Some(String::from(avatar_url)))
-            .field(embed_field_title, embed_field_value, false))).await?;
+    client
+        .send(|message| {
+            message
+                .content("")
+                .username(username)
+                .avatar_url(avatar_url)
+                .embed(|embed| {
+                    embed
+                        .title(embed_title)
+                        .description(msg)
+                        .footer(embed_footer, Some(String::from(embed_footer_icon)))
+                        .image(embed_image)
+                        .thumbnail(embed_thumbnail)
+                        .author(
+                            username,
+                            Some(String::from(avatar_url)),
+                            Some(String::from(avatar_url)),
+                        )
+                        .field(embed_field_title, embed_field_value, false)
+                })
+        })
+        .await?;
     println!("Embed sent!");
     Ok(())
 }

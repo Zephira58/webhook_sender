@@ -215,7 +215,7 @@ impl eframe::App for MyApp {
                         cb(self.toasts.info("No update available"));
                         println!("\nNo update available");
                     }
-                } 
+                }
                 else if self.update_check < 105 && !self.update_available {
                     self.update_check += 1;
                 }
