@@ -1,3 +1,9 @@
+---
+name: Issue
+about: Create a report to help us improve
+assignees: 'Xanthus58'
+---
+
 **Note: for support questions, please use stackoverflow**. This repository's issues are reserved for feature requests and bug reports.
 
 * **I'm submitting a ...**
