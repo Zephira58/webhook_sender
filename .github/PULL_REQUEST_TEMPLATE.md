@@ -1,3 +1,9 @@
+---
+name: Pull_Request
+about: Create a PR to help us improve
+assignees: 'Xanthus58'
+---
+
 * **Please check if the PR fulfills these requirements**
 - [ ] The commit message follows our guidelines and licences
 
