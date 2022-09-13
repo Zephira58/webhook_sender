@@ -92,12 +92,13 @@ pub async fn send_embed(
     Ok(())
 }
 
-pub fn update() -> Result<(), Box<dyn (::std::error::Error)>> {
+pub fn download_update() -> Result<(), Box<dyn (::std::error::Error)>> {
     let status = self_update::backends::github::Update::configure()
         .repo_owner("Xanthus58")
         .repo_name("webhook_sender")
         .bin_name("github")
         .show_download_progress(true)
+        .no_confirm(true)
         .current_version(cargo_crate_version!())
         .build()?
         .update()?;

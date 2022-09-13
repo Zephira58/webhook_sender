@@ -17,9 +17,6 @@ pub struct MyApp {
     webhook: String,
     username: String,
     avatar_url: String,
-    update_check: i32,
-    update_available: bool,
-    update_notification: bool,
     embed: bool,
     embed_title: String,
     embed_footer: String,
@@ -28,6 +25,7 @@ pub struct MyApp {
     embed_thumbnail: String,
     embed_field_title: String,
     embed_field_value: String,
+    update_delay: i32,
 }
 
 impl Default for MyApp {
@@ -42,9 +40,6 @@ impl Default for MyApp {
             webhook: "".to_string(),
             username: "Xans Webhook Sender".to_string(),
             avatar_url: "https://cdn.discordapp.com/avatars/292971545956188160/eab559efa07f0f3dd13d21ac5f26c4ce.png?size=1024".to_string(),
-            update_check: 0,
-            update_available: false,
-            update_notification: false,
             embed: false,
             embed_title: "".to_string(),
             embed_footer: "".to_string(),
@@ -53,6 +48,7 @@ impl Default for MyApp {
             embed_thumbnail: "".to_string(),
             embed_field_title: "".to_string(),
             embed_field_value: "".to_string(),
+            update_delay: 0,
         }
     }
 }
@@ -205,45 +201,32 @@ impl eframe::App for MyApp {
                         }
                     }
 
+                    //Various UI elements and checks for application updates
+                    let update = ui.button("Update");
+                    if update.hovered() {
+                        egui::show_tooltip(ui.ctx(), egui::Id::new("my_tooltip"), |ui| {
+                            ui.label("Download any updates if available");
+                        });
+                    }
+                    if update.clicked() {
+                        cb(self.toasts.info("Updating... See console for logs"));
+                        println!("\nChecking for updates...");
+                        self.update_delay = 5
+                    }
+                    if self.update_delay < 101 && self.update_delay > 2 {
+                        self.update_delay += 1;
+                    }
+                    if self.update_delay == 100 {
+                        download_update().expect("Failed to download update");
+                        self.update_delay = 110;
+                    }
+
+                    //UI elements for the embed toggle
                     if ui.checkbox(&mut self.embed, "Embed?").clicked() {
                         println!("\nEmbed: {}", &self.embed);
                         cb(self.toasts.success("Embed toggled!"));
                     }
                 });
-
-                //Various UI elements and checks for application updates
-                if self.update_check == 0 {
-                    cb(self.toasts.info("Checking for updates... Please wait"));
-                    println!("\nChecking for updates...");
-                }
-                if self.update_check == 100 {
-                    self.update_check = 110;
-                    let x = update();
-                    if x.is_err() {
-                        self.update_available = true
-                    }
-                    else {
-                        cb(self.toasts.info("No update available"));
-                        println!("\nNo update available");
-                    }
-                }
-                else if self.update_check < 105 && !self.update_available {
-                    self.update_check += 1;
-                }
-
-                if self.update_available {
-                    ui.separator();
-                    if !self.update_notification {
-                        cb(self.toasts.info("Update available!"));
-                        println!("\nUpdate available!");
-                        self.update_notification = true;
-                    }
-                    ui.label("There is an update available!");
-                    ui.horizontal(|ui| {
-                        ui.label("You can download the update from");
-                        ui.hyperlink_to("here", "https://github.com/Xanthus58/webhook_sender/releases/latest");
-                    });
-                }
                 self.toasts.show(ctx); // Requests to render toasts
             });
         });
