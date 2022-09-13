@@ -4,7 +4,6 @@ mod app;
 use app::*;
 
 pub const APP_NAME: &str = "Webhook Sender";
-
 fn main() {
     print!("{esc}c", esc = 27 as char);
     println!("\nApplication made by Xanthus58");

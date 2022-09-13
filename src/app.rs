@@ -1,6 +1,6 @@
 use std::time::Duration;
 
-use eframe::egui::{self, Visuals, Window};
+use eframe::egui::{self, Color32, Visuals, Window};
 use egui_notify::{Anchor, Toast, Toasts};
 
 mod api_handler; //Imports the API handler
@@ -84,12 +84,15 @@ impl eframe::App for MyApp {
 
                 self.message = self.message.replace("\n", "");
 
+                //UI elements for application introduction
                 ui.label("Hello and welcome to webhook sender!");
                 ui.label(
                 "You can randomly generate an insult, affirmation or write your own message in the boxes below!\n");
-                ui.label("Notice: This application is not affiliated with Discord in any way.\nThe application will say message sent even if the webhook URL is invalid.");
+                ui.colored_label(Color32::from_rgb(150, 0, 0), "Notice: This application is not affiliated with Discord in any way.\nThe application will say message sent even if the webhook URL is invalid.");
 
                 ui.separator();
+
+                //Base UI elements for the app
                 ui.label("*Required");
                 ui.horizontal(|ui| {
                     ui.label("*Enter Webhook URL:");
@@ -111,6 +114,7 @@ impl eframe::App for MyApp {
                     ui.text_edit_multiline(&mut self.message);
                 });
 
+                //UI elements for embeds (optional)
                 if self.embed {
                     ui.separator();
                     ui.horizontal(|ui| {
@@ -154,47 +158,54 @@ impl eframe::App for MyApp {
                 ui.label("-Your message-");
                 ui.label(&self.message);
 
-
+                //UI for the buttons and error handling
                 ui.horizontal(|ui| {
-                    let generate_button = ui.button("Generate an insult");
-                    if generate_button.clicked() {
+                    if ui.button("Generate an insult").clicked() {
                         self.message = get_insult();
                         cb(self.toasts.success("Generation Successful!")); //Sends a success toast
                     }
 
-                    let generate_affirmation = ui.button("Generate an affirmation");
-                    if generate_affirmation.clicked() {
+                    if ui.button("Generate an affirmation").clicked() {
                         self.message = get_affirmation();
                         cb(self.toasts.success("Generation Successful!"));
                     }
 
-                    let send_button = ui.button("Send message");
-                    if send_button.clicked() && self.webhook.is_empty(){
-                        println!("\nERROR: Webhook URL not found!");
-                        cb(self.toasts.error("Please enter a wehbook url"));
-                    }
-                    else if send_button.clicked() && self.message.is_empty() {
-                        println!("\nERROR: Message not found!");
-                        cb(self.toasts.error("Please enter a message"));
-                    }
-                    else if send_button.clicked() && self.embed == false {
-                        send_message(&self.message, &self.webhook, &self.username, &self.avatar_url, );
-                        cb(self.toasts.success("Message Sent!"));
-                        self.message = "".to_string();
-                    }
-                    else if send_button.clicked() && self.embed_field_title.is_empty() || send_button.clicked() && self.embed_field_value.is_empty() {
-                        cb(self.toasts.error("Embed field title and value are required!"));
-                        println!("ERROR: Embed field title and value are required!");
-                    }
-                    else if send_button.clicked() && self.embed == true {
-                        send_embed(&self.message, &self.webhook, &self.username, &self.avatar_url, &self.embed_title, &self.embed_footer, &self.embed_footer_icon, &self.embed_image, &self.embed_thumbnail, &self.embed_field_title, &self.embed_field_value);
-                        cb(self.toasts.success("Message Sent!"));
-                        self.message = "".to_string();
+                    if ui.button("Send message").clicked() {
+                        let mut error = false;
+                        if self.webhook.is_empty() {
+                            println!("\nERROR: Webhook URL not found!");
+                            cb(self.toasts.error("Please enter a wehbook url"));
+                            error = true;
+                        }
+                        if self.message.is_empty() {
+                            println!("\nERROR: Message not found!");
+                            cb(self.toasts.error("Please enter a message"));
+                            error = true;
+                        }
+
+                        if self.embed {
+                            if self.embed_field_title.is_empty() || self.embed_field_value.is_empty() {
+                                cb(self.toasts.error("Embed field title and value are required!"));
+                                println!("ERROR: Embed field title and value are required!");
+                                error = true;
+                            }
+                            if !error{
+                                send_embed(&self.message, &self.webhook, &self.username, &self.avatar_url, &self.embed_title, &self.embed_footer, &self.embed_footer_icon, &self.embed_image, &self.embed_thumbnail, &self.embed_field_title, &self.embed_field_value).expect("Error sending embed");
+                                cb(self.toasts.success("Embed Sent!"));
+                                self.message = "".to_string();
+                                println!("Embed sent!");
+                                return;
+                            }
+                        }
+
+                        if !error{
+                            send_message(&self.message, &self.webhook, &self.username, &self.avatar_url, );
+                            cb(self.toasts.success("Message Sent!"));
+                            self.message = "".to_string();
+                        }
                     }
 
-                    let embed = ui.checkbox(&mut self.embed, "Embed?");
-                    if embed.clicked() {
-                        &self.embed != &self.embed;
+                    if ui.checkbox(&mut self.embed, "Embed?").clicked() {
                         println!("\nEmbed: {}", &self.embed);
                         cb(self.toasts.success("Embed toggled!"));
                     }

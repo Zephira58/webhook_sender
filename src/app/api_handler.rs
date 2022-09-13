@@ -30,7 +30,6 @@ pub fn get_affirmation() -> String {
 }
 
 use webhook::client::{WebhookClient, WebhookResult};
-use webhook::models::NonLinkButtonStyle;
 
 #[tokio::main]
 pub async fn send_message(msg: &str, webhook: &str, username: &str, avatar_url: &str) {
@@ -90,7 +89,6 @@ pub async fn send_embed(
                 })
         })
         .await?;
-    println!("Embed sent!");
     Ok(())
 }
 
