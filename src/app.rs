@@ -1,6 +1,6 @@
-use std::time::Duration;
 use std::sync::mpsc::channel;
 use std::thread;
+use std::time::Duration;
 
 use eframe::egui::{self, Color32, Visuals, Window};
 use egui_notify::{Anchor, Toast, Toasts};
@@ -60,7 +60,6 @@ const CURRENT_BUILD: &str = env!("CARGO_PKG_VERSION");
 const REPO_URL: &str = env!("CARGO_PKG_REPOSITORY");
 
 impl eframe::App for MyApp {
-    
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
         egui::CentralPanel::default().show(ctx, |_ui|{
             Window::new(APP_NAME).show(ctx, |ui| {
