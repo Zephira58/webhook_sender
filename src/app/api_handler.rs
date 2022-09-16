@@ -1,5 +1,5 @@
-#![allow(clippy::all)]
 #![allow(unused_must_use)]
+#![allow(clippy::too_many_arguments)]
 use self_update::cargo_crate_version;
 use std::collections::HashMap;
 
@@ -11,7 +11,7 @@ pub fn get_insult() -> String {
         .text()
         .expect("Couldn't get response body");
     println!("Insult fetched!");
-    return x;
+    x
 }
 
 pub fn get_affirmation() -> String {
@@ -20,13 +20,13 @@ pub fn get_affirmation() -> String {
         .expect("Get failed")
         .text()
         .expect("Couldn't get response body")
-        .replace("{", "")
-        .replace("}", "")
-        .replace(":", "")
+        .replace('{', "")
+        .replace('}', "")
+        .replace(':', "")
         .replace("affirmation", "")
         .replace('"', "");
     println!("Affirmation fetched!");
-    return x;
+    x
 }
 
 use webhook::client::{WebhookClient, WebhookResult};

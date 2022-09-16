@@ -157,9 +157,9 @@ impl eframe::App for MyApp {
                 ui.label(&self.message);
 
                 //UI for the buttons and error handling
+                let (sender, receiver) = channel();
                 ui.horizontal(|ui| {
                     if ui.button("Generate an insult").clicked() {
-                        let (sender, receiver) = channel();
                         thread::spawn(move || {
                             sender.send(get_insult()).expect("Failed to fetch insult");
                         });
