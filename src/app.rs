@@ -1,3 +1,4 @@
+use std::thread;
 use std::time::Duration;
 
 use eframe::egui::{self, Color32, Visuals, Window};
@@ -25,7 +26,6 @@ pub struct MyApp {
     embed_thumbnail: String,
     embed_field_title: String,
     embed_field_value: String,
-    update_delay: i32,
 }
 
 impl Default for MyApp {
@@ -48,7 +48,6 @@ impl Default for MyApp {
             embed_thumbnail: "".to_string(),
             embed_field_title: "".to_string(),
             embed_field_value: "".to_string(),
-            update_delay: 0,
         }
     }
 }
@@ -195,7 +194,7 @@ impl eframe::App for MyApp {
                         }
 
                         if !error{
-                            send_message(&self.message, &self.webhook, &self.username, &self.avatar_url, );
+                            send_message(&self.message, &self.webhook, &self.username, &self.avatar_url);
                             cb(self.toasts.success("Message Sent!"));
                             self.message = "".to_string();
                         }
@@ -211,14 +210,9 @@ impl eframe::App for MyApp {
                     if update.clicked() {
                         cb(self.toasts.info("Updating... See console for logs"));
                         println!("\nChecking for updates...");
-                        self.update_delay = 5
-                    }
-                    if self.update_delay < 101 && self.update_delay > 2 {
-                        self.update_delay += 1;
-                    }
-                    if self.update_delay == 100 {
-                        download_update().expect("Failed to download update");
-                        self.update_delay = 110;
+                        thread::spawn(move || {
+                            download_update().expect("Failed to download update");
+                        });
                     }
 
                     //UI elements for the embed toggle
