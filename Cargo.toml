@@ -1,6 +1,6 @@
 [package]
 name = "webhook_sender"
-version = "1.2.2"
+version = "1.2.3"
 edition = "2021"
 authors = ["Xanthus58 <xanthus58@protonmail.com>"]
 license = "MIT"
@@ -17,3 +17,11 @@ tokio = { version = "1.21.1", features = ["full"] }
 egui-notify = "0.4.0"
 self_update = "0.32.0"
 webhook = "2.1.0"
+
+[profile.release]
+# See info here https://www.youtube.com/watch?v=b2qe3L4BX-Y
+strip = true
+opt-level = "s"
+lto = true
+codegen-units = 1
+
