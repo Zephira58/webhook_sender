@@ -1,4 +1,3 @@
-use std::sync::mpsc::channel;
 use std::thread;
 use std::time::Duration;
 
@@ -155,14 +154,9 @@ impl eframe::App for MyApp {
                 ui.label(&self.message);
 
                 //UI for the buttons and error handling
-                let (sender, receiver) = channel();
                 ui.horizontal(|ui| {
                     if ui.button("Generate an insult").clicked() {
-                        thread::spawn(move || {
-                            sender.send(get_insult()).expect("Failed to fetch insult");
-                        });
-                        self.message = receiver.recv().expect("Failed to get insult");
-                        //self.message = get_insult();
+                        self.message = get_insult();
                         cb(self.toasts.success("Generation Successful!")); //Sends a success toast
                     }
 
@@ -200,7 +194,7 @@ impl eframe::App for MyApp {
                         }
 
                         if !error{
-                            send_message(&self.message, &self.webhook, &self.username, &self.avatar_url, );
+                            send_message(&self.message, &self.webhook, &self.username, &self.avatar_url);
                             cb(self.toasts.success("Message Sent!"));
                             self.message = "".to_string();
                         }
