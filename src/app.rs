@@ -169,7 +169,7 @@ impl eframe::App for MyApp {
                         let mut error = false;
                         if self.webhook.is_empty() {
                             println!("\nERROR: Webhook URL not found!");
-                            cb(self.toasts.error("Pleaseenter a wehbook url"));
+                            cb(self.toasts.error("Please enter a wehbook url"));
                             error = true;
                         }
                         if self.message.is_empty() {
