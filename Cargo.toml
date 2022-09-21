@@ -1,6 +1,6 @@
 [package]
 name = "webhook_sender"
-version = "1.2.3"
+version = "1.2.4"
 edition = "2021"
 authors = ["Xanthus58 <xanthus58@protonmail.com>"]
 license = "MIT"
@@ -24,4 +24,3 @@ strip = true
 opt-level = "s"
 lto = true
 codegen-units = 1
-
