@@ -2315,7 +2315,7 @@ dependencies = [
 
 [[package]]
 name = "webhook_sender"
-version = "1.2.3"
+version = "1.2.4"
 dependencies = [
  "eframe",
  "egui-notify",
