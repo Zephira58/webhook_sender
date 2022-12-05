@@ -1,9 +1,11 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")] // hide console window on Windows in release
 
 mod app;
+
 use app::*;
 
 pub const APP_NAME: &str = "Webhook Sender";
+
 fn main() {
     print!("{esc}c", esc = 27 as char);
     println!("\nApplication made by Xanthus58");

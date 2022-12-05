@@ -4,10 +4,12 @@ use std::time::Duration;
 use eframe::egui::{self, Color32, Visuals, Window};
 use egui_notify::{Anchor, Toast, Toasts};
 
-mod api_handler; //Imports the API handler
+//Imports the API handler
 use api_handler::*;
 
 use crate::APP_NAME;
+
+mod api_handler;
 
 pub struct MyApp {
     //Enter global values to be used with your app here
@@ -58,7 +60,7 @@ const REPO_URL: &str = env!("CARGO_PKG_REPOSITORY");
 
 impl eframe::App for MyApp {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
-        egui::CentralPanel::default().show(ctx, |_ui|{
+        egui::CentralPanel::default().show(ctx, |_ui| {
             Window::new(APP_NAME).show(ctx, |ui| {
                 ui.style_mut().visuals = Visuals::dark(); // Makes the buttons dark
                 ctx.set_visuals(egui::Visuals::dark()); // Make the ui dark
@@ -82,7 +84,7 @@ impl eframe::App for MyApp {
                 //UI elements for application introduction
                 ui.label("Hello and welcome to webhook sender!");
                 ui.label(
-                "You can randomly generate an insult, affirmation or write your own message in the boxes below!\n");
+                    "You can randomly generate an insult, affirmation or write your own message in the boxes below!\n");
                 ui.colored_label(Color32::from_rgb(150, 0, 0), "Notice: This application is not affiliated with Discord in any way.\nThe application will say message sent even if the webhook URL is invalid.");
 
                 ui.separator();
@@ -184,7 +186,7 @@ impl eframe::App for MyApp {
                                 println!("ERROR: Embed field title and value are required!");
                                 error = true;
                             }
-                            if !error{
+                            if !error {
                                 send_embed(&self.message, &self.webhook, &self.username, &self.avatar_url, &self.embed_title, &self.embed_footer, &self.embed_footer_icon, &self.embed_image, &self.embed_thumbnail, &self.embed_field_title, &self.embed_field_value).expect("Error sending embed");
                                 cb(self.toasts.success("Embed Sent!"));
                                 self.message = "".to_string();
@@ -193,7 +195,7 @@ impl eframe::App for MyApp {
                             }
                         }
 
-                        if !error{
+                        if !error {
                             send_message(&self.message, &self.webhook, &self.username, &self.avatar_url);
                             cb(self.toasts.success("Message Sent!"));
                             self.message = "".to_string();

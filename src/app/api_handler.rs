@@ -1,7 +1,10 @@
 #![allow(unused_must_use)]
 #![allow(clippy::too_many_arguments)]
-use self_update::cargo_crate_version;
+
 use std::collections::HashMap;
+
+use self_update::cargo_crate_version;
+use webhook::client::{WebhookClient, WebhookResult};
 
 pub fn get_insult() -> String {
     println!("\nFetching insult from https://insult.mattbas.org/api/insult...");
@@ -29,8 +32,6 @@ pub fn get_affirmation() -> String {
     x
 }
 
-use webhook::client::{WebhookClient, WebhookResult};
-
 #[tokio::main]
 pub async fn send_message(msg: &str, webhook: &str, username: &str, avatar_url: &str) {
     println!("\nSending message...");
@@ -49,6 +50,7 @@ pub async fn send_message(msg: &str, webhook: &str, username: &str, avatar_url: 
         .await;
     println!("Message sent!");
 }
+
 #[tokio::main]
 pub async fn send_embed(
     msg: &str,
