@@ -16,7 +16,7 @@ reqwest = { version = "0.11", features = ["blocking", "json"] }
 tokio = { version = "1.23.0", features = ["full"] }
 egui-notify = "0.4.4"
 self_update = "0.32.0"
-webhook = "2.1.0"
+webhook = "2.1.2"
 
 [profile.release]
 # See info here https://www.youtube.com/watch?v=b2qe3L4BX-Y
