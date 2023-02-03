@@ -41,7 +41,7 @@ impl Default for MyApp {
             duration: 3.5,
             webhook: "".to_string(),
             username: "Xans Webhook Sender".to_string(),
-            avatar_url: "https://cdn.discordapp.com/avatars/292971545956188160/eab559efa07f0f3dd13d21ac5f26c4ce.png?size=1024".to_string(),
+            avatar_url: "https://cdn.discordapp.com/avatars/892723824297119754/fdd67fef581729a0224f7bf9e8a52d3b.png?size=1024".to_string(),
             embed: false,
             embed_title: "".to_string(),
             embed_footer: "".to_string(),
