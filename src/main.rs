@@ -17,8 +17,8 @@ fn main() {
     println!("\n-Logs-");
     let options = eframe::NativeOptions::default();
     eframe::run_native(
-        APP_NAME,                                   //app name
-        options,                                    //just leave this at options
+        APP_NAME,                                //app name
+        options,                                 //just leave this at options
         Box::new(|_cc| Box::<MyApp>::default()), //leave this as default
     );
 }
