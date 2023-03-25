@@ -23,9 +23,7 @@ pub fn get_affirmation() -> String {
         .expect("Get failed")
         .text()
         .expect("Couldn't get response body")
-        .replace('{', "")
-        .replace('}', "")
-        .replace(':', "")
+        .replace(['{', '}', ':'], "")
         .replace("affirmation", "")
         .replace('"', "");
     println!("Affirmation fetched!");

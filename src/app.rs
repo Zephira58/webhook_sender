@@ -79,7 +79,7 @@ impl eframe::App for MyApp {
 
                 ui.add_space(10.0);
 
-                self.message = self.message.replace("\n", "");
+                self.message = self.message.replace('\n', "");
 
                 //UI elements for application introduction
                 ui.label("Hello and welcome to webhook sender!");
