@@ -47,7 +47,7 @@ mod tests {
     #[test]
     pub fn download_update() -> Result<(), Box<dyn (::std::error::Error)>> {
         let status = self_update::backends::github::Update::configure()
-            .repo_owner("1")
+            .repo_owner("Xanthus58")
             .repo_name("webhook_sender")
             .bin_name("github")
             .show_download_progress(true)
