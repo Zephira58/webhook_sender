@@ -25,5 +25,4 @@ mod tests {
         println!("Affirmation fetched!");
         assert_eq!(x, x);
     }
-
 }
