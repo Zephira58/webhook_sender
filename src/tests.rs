@@ -1,8 +1,7 @@
 #[cfg(test)]
 mod tests {
-    use std::collections::HashMap;
     use self_update::cargo_crate_version;
-    
+    use std::collections::HashMap;
 
     #[test]
     fn test_get_insult() {
@@ -37,7 +36,7 @@ mod tests {
         request_body.insert("content", "unit test");
         request_body.insert("username", "xanthus");
         request_body.insert("avatar_url", "https://cdn.discordapp.com/avatars/292971545956188160/2a77b119a3f8ccedfbd513825eec97a5.png?size=1024");
-    
+
         reqwest::Client::new()
             .post("https://discord.com/api/webhooks/1071132108392775720/uYFy-Iyxfi8pO98_PNF3f8fgATHNKzYkSDJ1c4S9_5lvB-axPyTQlF5iHl29cW-6JyPO")
             .json(&request_body)
